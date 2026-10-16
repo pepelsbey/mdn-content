@@ -14,7 +14,16 @@ sidebar:
     details: closed
     children:
       - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth
+        details: closed
         code: true
+        children:
+          - type: section
+            link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth#commands
+            title: Commands
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristicResponse
+            code: true
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse
+            code: true
       - link: /Web/WebDriver/Reference/BiDi/Modules/browser
         details: closed
         code: true
