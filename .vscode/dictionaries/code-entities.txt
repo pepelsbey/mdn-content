@@ -684,6 +684,7 @@ rozaj
 rport
 rquote
 rspadd
+rssi
 RTCICECandidatePairStats
 rtctransform
 rtlm
@@ -735,6 +736,7 @@ sharpyuv
 shrd
 shtm
 Silf
+simulatePreconnectedPeripheral
 sinkchange
 sizemodechange
 skipad

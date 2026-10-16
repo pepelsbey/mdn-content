@@ -14,7 +14,20 @@ sidebar:
     details: closed
     children:
       - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth
+        details: closed
         code: true
+        children:
+          - type: section
+            link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth#commands
+            title: Commands
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateAdvertisement
+            code: true
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse
+            code: true
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattDisconnection
+            code: true
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulatePreconnectedPeripheral
+            code: true
       - link: /Web/WebDriver/Reference/BiDi/Modules/browser
         details: closed
         code: true
