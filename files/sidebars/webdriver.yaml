@@ -14,7 +14,20 @@ sidebar:
     details: closed
     children:
       - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth
+        details: closed
         code: true
+        children:
+          - type: section
+            link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth#events
+            title: Events
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/characteristicEventGenerated
+            code: true
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/descriptorEventGenerated
+            code: true
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted
+            code: true
+          - link: /Web/WebDriver/Reference/BiDi/Modules/bluetooth/requestDevicePromptUpdated
+            code: true
       - link: /Web/WebDriver/Reference/BiDi/Modules/browser
         details: closed
         code: true
