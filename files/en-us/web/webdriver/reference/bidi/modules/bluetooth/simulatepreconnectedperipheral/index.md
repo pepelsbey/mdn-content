@@ -60,12 +60,13 @@ The `result` field in the response is an empty object (`{}`).
 
 - [`invalid argument`](/en-US/docs/Web/WebDriver/Reference/Errors/InvalidArgument)
   - : Thrown in any of the following cases:
-    - A parameter is missing or has an invalid type, or a `key` is not a non-negative integer.
+    - A required parameter is missing or has an invalid type.
+    - The `key` field in a `manufacturerData` object is not a non-negative integer.
     - `context` is not a top-level context.
     - The context has no simulated adapter.
     - The simulated adapter already has a device with the specified `address`.
 - `no such frame`
-  - : No context with the specified `context` ID is found.
+  - : No context with the given `context` ID is found.
 
 ## Description
 
@@ -73,7 +74,8 @@ Before you add a device, create a simulated adapter for the context with [`bluet
 The adapter can have one device per address.
 The device stays until the context is closed or you remove the adapter, along with its devices, with [`bluetooth.disableSimulation`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/disableSimulation).
 
-When a page in the context calls {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}} in response to a user's action, the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) lists the simulated device only if it matches the options that the page passed, for example if its `knownServiceUuids` include every service in one of the filters.
+When a page in the context calls {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}} in response to a user's action, the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) lists the simulated device only if it matches the options that the page passed.
+For example, the device matches if its `knownServiceUuids` include every service in one of the filters.
 To choose it, use [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt).
 Once the page has the device, it can call {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}}, which waits until you answer with [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse) or [`bluetooth.simulateGattDisconnection`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattDisconnection).
 
@@ -82,7 +84,9 @@ Once the page has the device, it can call {{domxref("BluetoothRemoteGATTServer.c
 ### Adding a heart rate monitor
 
 Assume you have a [WebDriver BiDi connection](/en-US/docs/Web/WebDriver/How_to/Create_BiDi_connection), an [active session](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/new), and a [subscription](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to [`bluetooth.requestDevicePromptUpdated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/requestDevicePromptUpdated).
-Suppose the tab with the context ID `93ee5bd6-d256-4608-a002-9a8995cc0e5f` has a page from `https://example.com` that looks for heart rate monitors, and you used `bluetooth.simulateAdapter` to simulate a powered-on adapter for it.
+
+Assume also that a tab is open, showing a page from `https://example.com` that looks for heart rate monitors.
+You simulated a powered-on adapter for the tab using [`bluetooth.simulateAdapter`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateAdapter).
 
 Send the following message to add a heart rate monitor:
 
@@ -110,12 +114,13 @@ The browser responds with an empty `result` object:
 }
 ```
 
-When the page calls `requestDevice()` with the filter `{ services: ["heart_rate"] }` in response to a user's action, such as a `script.callFunction` command with `userActivation` set to `true`, you receive a `bluetooth.requestDevicePromptUpdated` event whose `devices` list includes the heart rate monitor.
-If you choose it with `bluetooth.handleRequestDevicePrompt`, using the prompt ID from the latest event, `requestDevice()` resolves with a `BluetoothDevice` object whose `name` is `Heart Rate Monitor`.
+Suppose the page then calls `requestDevice()` with the filter `{ services: ["heart_rate"] }` in response to a user's action, such as a [`script.callFunction`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/script/callFunction) command with `userActivation` set to `true`.
+You receive a `bluetooth.requestDevicePromptUpdated` event whose `devices` array includes the heart rate monitor.
+If you choose it with [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt), using the prompt ID from the latest event, `requestDevice()` resolves with a `BluetoothDevice` object whose `name` is `Heart Rate Monitor`.
 
 ### Adding a device with an address in use
 
-Using the same connection and session, send the following message to add another device with the same address:
+Using the same connection, session, and tab as in the first example, send the following message to add another device with the same address:
 
 ```json
 {

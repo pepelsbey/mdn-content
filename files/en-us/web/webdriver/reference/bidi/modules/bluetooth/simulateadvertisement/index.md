@@ -11,7 +11,8 @@ sidebar: webdriver
 
 {{SeeCompatTable}}
 
-The `bluetooth.simulateAdvertisement` [command](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules#commands) of the [`bluetooth`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth) module simulates an advertisement packet from a Bluetooth device, received by the [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) of a [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context).
+The `bluetooth.simulateAdvertisement` [command](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules#commands) of the [`bluetooth`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth) module simulates an advertisement packet from a Bluetooth device.
+The [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) of the specified [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) receives the packet.
 
 ## Syntax
 
@@ -77,7 +78,7 @@ The `params` field contains:
         - `name` {{optional_inline}}
           - : A string that contains the device's local name, or the beginning of it.
         - `uuids` {{optional_inline}}
-          - : An array of strings that contains the UUIDs of the services that, according to the advertisement, the device's GATT server supports.
+          - : An array of strings that contains the UUIDs of the services that the device's GATT server supports, according to the advertisement.
 
 ### Return value
 
@@ -87,11 +88,11 @@ The `result` field in the response is an empty object (`{}`).
 
 - [`invalid argument`](/en-US/docs/Web/WebDriver/Reference/Errors/InvalidArgument)
   - : Thrown in any of the following cases:
-    - `context` or `scanEntry` is missing, or a parameter has an invalid type.
+    - A required parameter is missing, or a parameter has an invalid type.
     - `context` is not a top-level context.
     - The context has no simulated adapter.
 - `no such frame`
-  - : No context with the specified `context` ID is found.
+  - : No context with the given `context` ID is found.
 
 ## Description
 
@@ -99,7 +100,7 @@ Before you simulate an advertisement, create a simulated adapter for the context
 
 If the simulated adapter has no device with the specified `deviceAddress`, the command adds a [simulated device](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_devices) with that address, as if the adapter had discovered it.
 
-A page that was given the device, for example by {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}}, and is watching its advertisements receives an `advertisementreceived` event for the advertisement.
+A page receives an `advertisementreceived` event for the advertisement if it was given the device, for example by {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}}, and is watching the device's advertisements.
 The page watches advertisements from the time it calls `watchAdvertisements()` on its {{domxref("BluetoothDevice")}} object until it aborts the watch, or until it's hidden or no longer fully active.
 This applies to the pages in the top-level context and in its child contexts.
 

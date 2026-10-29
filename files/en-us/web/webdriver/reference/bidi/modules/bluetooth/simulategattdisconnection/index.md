@@ -11,7 +11,8 @@ sidebar: webdriver
 
 {{SeeCompatTable}}
 
-The `bluetooth.simulateGattDisconnection` [command](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules#commands) of the [`bluetooth`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth) module makes a simulated Bluetooth device drop its connection with a page, or fail to respond to the page's connection attempt.
+The `bluetooth.simulateGattDisconnection` [command](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules#commands) of the [`bluetooth`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth) module disconnects a simulated Bluetooth device from a page.
+If the page's connection attempt to the device is still waiting for a response, the attempt fails instead, as if the device couldn't respond.
 
 ## Syntax
 
@@ -43,18 +44,21 @@ The `result` field in the response is an empty object (`{}`).
 
 - [`invalid argument`](/en-US/docs/Web/WebDriver/Reference/Errors/InvalidArgument)
   - : Thrown in any of the following cases:
-    - `address` or `context` is missing or is not a string.
-    - `context` is not a top-level context, or the context has no simulated adapter.
+    - A required parameter is missing or has an invalid type.
+    - `context` is not a top-level context.
+    - The context has no simulated adapter.
     - The simulated adapter has no device with the specified `address`.
 - `no such frame`
-  - : No context with the specified `context` ID is found.
+  - : No context with the given `context` ID is found.
 
 ## Description
 
 The effect depends on the state of the page's [connection](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#gatt_connections) to the device:
 
-- If the page called {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}} and you haven't answered the attempt with [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse), the attempt fails as if the device couldn't respond, and `connect()` rejects with a `NetworkError` {{domxref("DOMException")}}.
-- If the page is connected to the device, the device is disconnected: {{domxref("BluetoothRemoteGATTServer.connected", "device.gatt.connected")}} becomes `false`, and the page receives a `gattserverdisconnected` event on the {{domxref("BluetoothDevice")}} object.
+- If the page called {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}} and you haven't answered the attempt with [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse), the attempt fails as if the device couldn't respond.
+  The `connect()` call rejects with a `NetworkError` {{domxref("DOMException")}}.
+- If the page is connected to the device, the browser disconnects it.
+  {{domxref("BluetoothRemoteGATTServer.connected", "device.gatt.connected")}} becomes `false`, and the page receives a `gattserverdisconnected` event on the {{domxref("BluetoothDevice")}} object.
 
 The device stays on the simulated adapter, and the page can connect to it again.
 
@@ -63,12 +67,17 @@ The device stays on the simulated adapter, and the page can connect to it again.
 ### Disconnecting a connected device
 
 Assume you have a [WebDriver BiDi connection](/en-US/docs/Web/WebDriver/How_to/Create_BiDi_connection), an [active session](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/new), and a [subscription](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to [`bluetooth.requestDevicePromptUpdated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/requestDevicePromptUpdated) and [`bluetooth.gattConnectionAttempted`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted).
-Suppose the tab with the context ID `93ee5bd6-d256-4608-a002-9a8995cc0e5f` has a page from `https://example.com`, and you simulated a powered-on adapter for it with [`bluetooth.simulateAdapter`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateAdapter).
-You added a heart rate monitor with the address `09:09:09:09:09:09` with `bluetooth.simulatePreconnectedPeripheral`.
-The page called {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}} in response to a user's action, you chose the monitor in the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) with [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt), and the page listens for the device's `gattserverdisconnected` event.
-When the page called `device.gatt.connect()`, you received a `bluetooth.gattConnectionAttempted` event and answered it with `bluetooth.simulateGattConnectionResponse` and the code `0`, so the page is connected to the monitor.
 
-To test how the page behaves when the monitor goes out of range, send the following message:
+Assume also that a tab is open, showing a page from `https://example.com`.
+You simulated a powered-on adapter for the tab using [`bluetooth.simulateAdapter`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateAdapter).
+You then added a heart rate monitor with the address `09:09:09:09:09:09` using [`bluetooth.simulatePreconnectedPeripheral`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulatePreconnectedPeripheral).
+The page called {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}} in response to a user's action.
+You chose the monitor in the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) using [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt).
+The page listens for the device's `gattserverdisconnected` event.
+When the page called `device.gatt.connect()`, you received a `bluetooth.gattConnectionAttempted` event.
+You answered it using [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse) with the code `0`, so the page is connected to the monitor.
+
+Send the following message to disconnect the monitor, as if it went out of range:
 
 ```json
 {
@@ -95,10 +104,11 @@ The page receives the `gattserverdisconnected` event, and `device.gatt.connected
 
 ### Failing a connection attempt
 
-Using the same connection, session, and subscription, suppose the page calls `device.gatt.connect()` again.
-The browser sends a `bluetooth.gattConnectionAttempted` event for the device, and the page waits for the response.
+Using the same connection, session, and subscriptions as in the first example, suppose the page calls `device.gatt.connect()` again.
+The browser sends a [`bluetooth.gattConnectionAttempted`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted) event for the device.
+The page's `connect()` call waits for the response.
 
-To test how the page handles a device that doesn't respond, send the following message instead of answering with `bluetooth.simulateGattConnectionResponse`:
+Instead of answering with [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse), send the following message to make the attempt fail as if the device couldn't respond:
 
 ```json
 {
