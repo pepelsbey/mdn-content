@@ -51,7 +51,7 @@ The `params` field contains:
 - `type`
   - : A string that specifies whether to add or remove the service.
     It can take one of the following values:
-    - `add`: Adds a service with the specified `uuid` to the device.
+    - `add`: Adds a service with the specified [`uuid`](#uuid) to the device.
     - `remove`: Removes the device's service with the specified `uuid`, along with its characteristics and their descriptors.
 - `uuid`
   - : A string that contains the 128-bit UUID of the service in lowercase, such as `0000180d-0000-1000-8000-00805f9b34fb` for the heart rate service.
@@ -64,23 +64,28 @@ The `result` field in the response is an empty object (`{}`).
 
 - [`invalid argument`](/en-US/docs/Web/WebDriver/Reference/Errors/InvalidArgument)
   - : Thrown in any of the following cases:
-    - A parameter is missing or has an invalid type, or `type` is not `add` or `remove`.
-    - `context` is not a top-level context, or the context has no simulated adapter.
+    - A required parameter is missing or has an invalid type.
+    - `type` is not `add` or `remove`.
+    - `context` is not a top-level context.
+    - The context has no simulated adapter.
     - The simulated adapter has no device with the specified `address`.
 - `invalid element state`
   - : Thrown in any of the following cases:
     - `type` is `add`, and the device already has a service with the specified `uuid`.
     - `type` is `remove`, and the device has no service with the specified `uuid`.
 - `no such frame`
-  - : No context with the specified `context` ID is found.
+  - : No context with the given `context` ID is found.
 
 ## Description
 
-A simulated device has one service per UUID, and each service can have characteristics, which you add with [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic) (see [The GATT hierarchy](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_gatt_hierarchy)).
+A simulated device has one service per UUID.
+Each service can have characteristics, which you add using [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
+For more information, see [The GATT hierarchy](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_gatt_hierarchy).
 Once the page has the device from {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}}, you can add a service before or after the page connects to it.
-The service stays on the device until you remove it, the context is closed, or you remove the simulated adapter with [`bluetooth.disableSimulation`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/disableSimulation).
+The service stays on the device until you remove it with another `bluetooth.simulateService` command, until the context is closed, or until you remove the simulated adapter with [`bluetooth.disableSimulation`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/disableSimulation).
 
-Once the page is connected to the device with {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}}, it finds the service with {{domxref("BluetoothRemoteGATTServer.getPrimaryService()", "device.gatt.getPrimaryService()")}} or {{domxref("BluetoothRemoteGATTServer.getPrimaryServices()", "getPrimaryServices()")}}, if the page is allowed to access it: for example, if the service is in the `filters` or `optionalServices` that the page passed to `requestDevice()`, and the [GATT blocklist](https://bluetooth.spec.whatwg.org/#gatt-blocklist) doesn't exclude its UUID.
+Once the page is connected to the device with {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}}, it finds the service with {{domxref("BluetoothRemoteGATTServer.getPrimaryService()", "device.gatt.getPrimaryService()")}} or {{domxref("BluetoothRemoteGATTServer.getPrimaryServices()", "getPrimaryServices()")}} if it's allowed to access the service.
+For example, the page can access the service if the service is in the `filters` or `optionalServices` that the page passed to `requestDevice()` and the [GATT blocklist](https://bluetooth.spec.whatwg.org/#gatt-blocklist) doesn't exclude its UUID.
 Once you remove the service, the page no longer finds it.
 
 ## Examples
@@ -88,13 +93,19 @@ Once you remove the service, the page no longer finds it.
 ### Adding a service
 
 Assume you have a [WebDriver BiDi connection](/en-US/docs/Web/WebDriver/How_to/Create_BiDi_connection), an [active session](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/new), and a [subscription](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to [`bluetooth.requestDevicePromptUpdated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/requestDevicePromptUpdated) and [`bluetooth.gattConnectionAttempted`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted).
-Suppose the tab with the context ID `93ee5bd6-d256-4608-a002-9a8995cc0e5f` has a page from `https://example.com`, and you simulated a powered-on adapter for it with [`bluetooth.simulateAdapter`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateAdapter).
-With `bluetooth.simulatePreconnectedPeripheral`, you added a heart rate monitor with the address `09:09:09:09:09:09` and the heart rate service in its `knownServiceUuids`.
-The page called `navigator.bluetooth.requestDevice()` with a filter for the heart rate service in response to a user's action, and you chose the monitor in the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) with [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt).
-When the page called `device.gatt.connect()`, you received a `bluetooth.gattConnectionAttempted` event and answered it with [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse) and the code `0`, so the page is connected to the monitor.
+
+Assume also that a tab is open, showing a page from `https://example.com`.
+You opened the tab using [`browsingContext.create`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/create), which returned its context ID.
+You then loaded the page in the tab using [`browsingContext.navigate`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/navigate).
+You simulated a powered-on adapter for the tab using [`bluetooth.simulateAdapter`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateAdapter).
+You then added a heart rate monitor with the address `09:09:09:09:09:09` and the heart rate service in `knownServiceUuids` using [`bluetooth.simulatePreconnectedPeripheral`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulatePreconnectedPeripheral).
+In response to a user's action, the page called `navigator.bluetooth.requestDevice()` with a filter for the heart rate service.
+You chose the monitor in the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) using [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt).
+When the page called `device.gatt.connect()`, you received a `bluetooth.gattConnectionAttempted` event.
+You answered it using [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse) with the code `0`, so the page is connected to the monitor.
 The monitor has no services yet.
 
-To give the monitor a heart rate service, send the following message:
+Send the following message to add a heart rate service to the monitor:
 
 ```json
 {
@@ -123,7 +134,7 @@ If the page now calls `device.gatt.getPrimaryService("heart_rate")`, the promise
 
 ### Removing a service
 
-Using the same connection, session, and subscription, with the page still connected to the monitor, send the following message to remove the heart rate service:
+Using the same connection, session, subscriptions, and tab as in the first example, with the page still connected to the monitor, send the following message to remove the heart rate service:
 
 ```json
 {

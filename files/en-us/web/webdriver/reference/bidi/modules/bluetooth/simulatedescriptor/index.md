@@ -61,7 +61,7 @@ The `params` field contains:
 - `type`
   - : A string that specifies whether to add or remove the descriptor.
     It can take one of the following values:
-    - `add`: Adds a descriptor with the specified `descriptorUuid` to the characteristic.
+    - `add`: Adds a descriptor with the specified [`descriptorUuid`](#descriptoruuid) to the characteristic.
     - `remove`: Removes the characteristic's descriptor with the specified `descriptorUuid`.
 
 ### Return value
@@ -72,8 +72,10 @@ The `result` field in the response is an empty object (`{}`).
 
 - [`invalid argument`](/en-US/docs/Web/WebDriver/Reference/Errors/InvalidArgument)
   - : Thrown in any of the following cases:
-    - A parameter is missing or has an invalid type, or `type` is not `add` or `remove`.
-    - `context` is not a top-level context, or the context has no simulated adapter.
+    - A required parameter is missing or has an invalid type.
+    - `type` is not `add` or `remove`.
+    - `context` is not a top-level context.
+    - The context has no simulated adapter.
     - The simulated adapter has no device with the specified `address`.
     - The device has no service with the specified `serviceUuid`.
     - The service has no characteristic with the specified `characteristicUuid`.
@@ -82,16 +84,20 @@ The `result` field in the response is an empty object (`{}`).
     - `type` is `add`, and the characteristic already has a descriptor with the specified `descriptorUuid`.
     - `type` is `remove`, and the characteristic has no descriptor with the specified `descriptorUuid`.
 - `no such frame`
-  - : No context with the specified `context` ID is found.
+  - : No context with the given `context` ID is found.
 
 ## Description
 
-A characteristic has one descriptor per UUID, and a descriptor contains no other attributes (see [The GATT hierarchy](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_gatt_hierarchy)).
-Removing the characteristic, or its service, also removes the descriptor.
-Once the page is connected to the device and has the characteristic, it finds the descriptor with {{domxref("BluetoothRemoteGATTCharacteristic.getDescriptor()", "characteristic.getDescriptor()")}} or {{domxref("BluetoothRemoteGATTCharacteristic.getDescriptors()", "getDescriptors()")}}, unless the [GATT blocklist](https://bluetooth.spec.whatwg.org/#gatt-blocklist) excludes its UUID.
+A characteristic has one descriptor per UUID, and a descriptor contains no other attributes.
+For more information, see [The GATT hierarchy](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_gatt_hierarchy).
+Removing the characteristic or its service also removes the descriptor.
+Once the page is connected to the device and has the characteristic, it finds the descriptor with {{domxref("BluetoothRemoteGATTCharacteristic.getDescriptor()", "characteristic.getDescriptor()")}} or {{domxref("BluetoothRemoteGATTCharacteristic.getDescriptors()", "getDescriptors()")}}.
+It doesn't find the descriptor if the [GATT blocklist](https://bluetooth.spec.whatwg.org/#gatt-blocklist) excludes its UUID.
 Once you remove the descriptor, the page no longer finds it.
 
-When the page reads or writes the descriptor's value, and the GATT blocklist allows it, the page's call waits until you answer with [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse).
+When the page reads or writes the descriptor's value, the operation goes to the simulated device.
+The page's own checks can settle the call first, for example when the page isn't connected to the device or the GATT blocklist excludes the operation.
+An operation that goes to the device waits until you answer it with [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse).
 If you're subscribed to [`bluetooth.descriptorEventGenerated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/descriptorEventGenerated), you receive an event that says which operation the page started.
 
 ## Examples
@@ -99,14 +105,22 @@ If you're subscribed to [`bluetooth.descriptorEventGenerated`](/en-US/docs/Web/W
 ### Adding a descriptor
 
 Assume you have a [WebDriver BiDi connection](/en-US/docs/Web/WebDriver/How_to/Create_BiDi_connection), an [active session](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/new), and a [subscription](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to [`bluetooth.requestDevicePromptUpdated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/requestDevicePromptUpdated) and [`bluetooth.gattConnectionAttempted`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted).
-Suppose the tab with the context ID `93ee5bd6-d256-4608-a002-9a8995cc0e5f` has a page from `https://example.com`, and you simulated a powered-on adapter for it with [`bluetooth.simulateAdapter`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateAdapter).
-With `bluetooth.simulatePreconnectedPeripheral`, you added a heart rate monitor with the address `09:09:09:09:09:09` and the heart rate service in its `knownServiceUuids`.
-The page called {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}} with a filter for the heart rate service in response to a user's action, and you chose the monitor in the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) with [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt).
-When the page called {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}}, you received a `bluetooth.gattConnectionAttempted` event and answered it with [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse) and the code `0`, so the page is connected to the monitor.
-You then gave the monitor a heart rate service with `bluetooth.simulateService`, and the service a heart rate measurement characteristic that supports notifications with `bluetooth.simulateCharacteristic`.
-The page has the characteristic from `service.getCharacteristic()`, and the characteristic has no descriptors yet.
 
-To add a Client Characteristic Configuration descriptor to the characteristic, send the following message:
+Assume also that a tab is open, showing a page from `https://example.com`.
+You opened the tab using [`browsingContext.create`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/create), which returned its context ID.
+You then loaded the page in the tab using [`browsingContext.navigate`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/navigate).
+You simulated a powered-on adapter for the tab using [`bluetooth.simulateAdapter`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateAdapter).
+You then added a heart rate monitor with the address `09:09:09:09:09:09` and the heart rate service in `knownServiceUuids` using [`bluetooth.simulatePreconnectedPeripheral`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulatePreconnectedPeripheral).
+In response to a user's action, the page called {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}} with a filter for the heart rate service.
+You chose the monitor in the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) using [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt).
+When the page called {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}}, you received a `bluetooth.gattConnectionAttempted` event.
+You answered it using [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse) with the code `0`, so the page is connected to the monitor.
+You then added a heart rate service to the monitor using [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
+You added a heart rate measurement characteristic that supports notifications to the service using [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
+The page got the characteristic using `service.getCharacteristic()`.
+The characteristic has no descriptors yet.
+
+Send the following message to add a Client Characteristic Configuration descriptor to the characteristic:
 
 ```json
 {
@@ -137,7 +151,7 @@ If the page now calls `characteristic.getDescriptors()`, the promise resolves wi
 
 ### Removing a descriptor
 
-Using the same connection, session, and subscription, with the page still connected to the monitor, send the following message to remove the Client Characteristic Configuration descriptor:
+Using the same connection, session, subscriptions, and tab as in the first example, with the page still connected to the monitor, send the following message to remove the Client Characteristic Configuration descriptor:
 
 ```json
 {
@@ -164,7 +178,8 @@ The browser responds with an empty `result` object:
 }
 ```
 
-The characteristic has no descriptors left, so if the page now calls `characteristic.getDescriptors()`, the promise rejects with a `NotFoundError` {{domxref("DOMException")}}.
+The characteristic has no descriptors left.
+If the page now calls `characteristic.getDescriptors()`, the promise rejects with a `NotFoundError` {{domxref("DOMException")}}.
 
 ## Specifications
 
