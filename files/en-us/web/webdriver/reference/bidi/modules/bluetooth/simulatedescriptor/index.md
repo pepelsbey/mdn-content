@@ -91,14 +91,14 @@ Removing the characteristic, or its service, also removes the descriptor.
 Once the page is connected to the device and has the characteristic, it finds the descriptor with {{domxref("BluetoothRemoteGATTCharacteristic.getDescriptor()", "characteristic.getDescriptor()")}} or {{domxref("BluetoothRemoteGATTCharacteristic.getDescriptors()", "getDescriptors()")}}, unless the [GATT blocklist](https://bluetooth.spec.whatwg.org/#gatt-blocklist) excludes its UUID.
 Once you remove the descriptor, the page no longer finds it.
 
-When the page reads or writes the descriptor's value, and the GATT blocklist allows it, the page's call waits until you answer with `bluetooth.simulateDescriptorResponse`.
-If you're subscribed to `bluetooth.descriptorEventGenerated`, you receive an event that says which operation the page started.
+When the page reads or writes the descriptor's value, and the GATT blocklist allows it, the page's call waits until you answer with [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse).
+If you're subscribed to [`bluetooth.descriptorEventGenerated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/descriptorEventGenerated), you receive an event that says which operation the page started.
 
 ## Examples
 
 ### Adding a descriptor
 
-Assume you have a [WebDriver BiDi connection](/en-US/docs/Web/WebDriver/How_to/Create_BiDi_connection), an [active session](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/new), and a [subscription](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to `bluetooth.requestDevicePromptUpdated` and `bluetooth.gattConnectionAttempted`.
+Assume you have a [WebDriver BiDi connection](/en-US/docs/Web/WebDriver/How_to/Create_BiDi_connection), an [active session](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/new), and a [subscription](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to [`bluetooth.requestDevicePromptUpdated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/requestDevicePromptUpdated) and [`bluetooth.gattConnectionAttempted`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted).
 Suppose the tab with the context ID `93ee5bd6-d256-4608-a002-9a8995cc0e5f` has a page from `https://example.com`, and you simulated a powered-on adapter for it with [`bluetooth.simulateAdapter`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateAdapter).
 With `bluetooth.simulatePreconnectedPeripheral`, you added a heart rate monitor with the address `09:09:09:09:09:09` and the heart rate service in its `knownServiceUuids`.
 The page called {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}} with a filter for the heart rate service in response to a user's action, and you chose the monitor in the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) with [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt).
