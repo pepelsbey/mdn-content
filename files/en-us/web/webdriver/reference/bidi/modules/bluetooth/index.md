@@ -24,7 +24,7 @@ An advertisement from a new address, which you simulate with [`bluetooth.simulat
 
 ## GATT connections
 
-With a simulated adapter, when a page calls {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}} for a device that isn't connected, the browser sends a `bluetooth.gattConnectionAttempted` event, with the context ID and the device address, to the sessions that are [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to it.
+With a simulated adapter, when a page calls {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}} for a device that isn't connected, the browser sends a [`bluetooth.gattConnectionAttempted`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted) event, with the context ID and the device address, to the sessions that are [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to it.
 The call then waits until you simulate the device's response.
 You then decide the outcome:
 
