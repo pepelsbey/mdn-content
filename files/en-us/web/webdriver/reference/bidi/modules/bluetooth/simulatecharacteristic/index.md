@@ -100,8 +100,7 @@ The `result` field in the response is an empty object (`{}`).
     - `type` is not `add` or `remove`.
     - `type` is `add`, `characteristicProperties` is missing, and the service has no characteristic with the specified `characteristicUuid`.
     - `type` is `remove`, and `characteristicProperties` is specified.
-    - `context` is not a top-level context.
-    - The context has no simulated adapter.
+    - The context has no simulated adapter, for example because it isn't a top-level context.
     - The simulated adapter has no device with the specified `address`.
     - The device has no service with the specified `serviceUuid`.
 - `invalid element state`

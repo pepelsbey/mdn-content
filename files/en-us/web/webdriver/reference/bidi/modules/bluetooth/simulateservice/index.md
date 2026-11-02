@@ -66,8 +66,7 @@ The `result` field in the response is an empty object (`{}`).
   - : Thrown in any of the following cases:
     - A required parameter is missing or has an invalid type.
     - `type` is not `add` or `remove`.
-    - `context` is not a top-level context.
-    - The context has no simulated adapter.
+    - The context has no simulated adapter, for example because it isn't a top-level context.
     - The simulated adapter has no device with the specified `address`.
 - `invalid element state`
   - : Thrown in any of the following cases:

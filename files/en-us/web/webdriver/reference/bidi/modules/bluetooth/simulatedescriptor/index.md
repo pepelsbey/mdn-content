@@ -50,7 +50,7 @@ The `params` field contains:
 - `address`
   - : A string that contains the Bluetooth address of the simulated device, such as one that you added with [`bluetooth.simulatePreconnectedPeripheral`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulatePreconnectedPeripheral).
 - `characteristicUuid`
-  - : A string that contains the UUID of the characteristic that has the descriptor, such as one that you added with [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
+  - : A string that contains the UUID of the service's characteristic that has the descriptor, such as one that you added with [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
 - `context`
   - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) has the device.
     Context IDs are returned by commands such as [`browsingContext.getTree`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/getTree).
@@ -74,8 +74,7 @@ The `result` field in the response is an empty object (`{}`).
   - : Thrown in any of the following cases:
     - A required parameter is missing or has an invalid type.
     - `type` is not `add` or `remove`.
-    - `context` is not a top-level context.
-    - The context has no simulated adapter.
+    - The context has no simulated adapter, for example because it isn't a top-level context.
     - The simulated adapter has no device with the specified `address`.
     - The device has no service with the specified `serviceUuid`.
     - The service has no characteristic with the specified `characteristicUuid`.
