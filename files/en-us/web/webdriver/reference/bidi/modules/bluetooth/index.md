@@ -33,7 +33,8 @@ For a write, the event also contains the bytes that the page wrote.
 
 You answer the operation using [`bluetooth.simulateCharacteristicResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristicResponse) or [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse):
 
-- With the code `0`, the operation succeeds, and a read gets the bytes that you specify as the value.
+- With the code `0`, the operation succeeds.
+  Unless the connection to the device ended in the meantime, a read gets the bytes that you specify as the value.
 - With an error code, the operation fails, and the page's call rejects.
 
 ## Commands

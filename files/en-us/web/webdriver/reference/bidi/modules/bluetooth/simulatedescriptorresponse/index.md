@@ -91,8 +91,7 @@ The `result` field in the response is an empty object (`{}`).
     - A required parameter is missing, or a parameter has an invalid type.
     - `type` is not `read` or `write`.
     - `code` is not a non-negative integer.
-    - `context` is not a top-level context.
-    - The context has no simulated adapter.
+    - The context has no simulated adapter, for example because it isn't a top-level context.
     - The simulated adapter has no device with the specified `address`.
     - The device has no service with the specified `serviceUuid`.
 - `invalid element state`
