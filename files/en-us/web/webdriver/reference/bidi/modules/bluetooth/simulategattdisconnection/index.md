@@ -45,8 +45,7 @@ The `result` field in the response is an empty object (`{}`).
 - [`invalid argument`](/en-US/docs/Web/WebDriver/Reference/Errors/InvalidArgument)
   - : Thrown in any of the following cases:
     - A required parameter is missing or has an invalid type.
-    - `context` is not a top-level context.
-    - The context has no simulated adapter.
+    - The context has no simulated adapter, for example because it isn't a top-level context.
     - The simulated adapter has no device with the specified `address`.
 - `no such frame`
   - : No context with the given `context` ID is found.

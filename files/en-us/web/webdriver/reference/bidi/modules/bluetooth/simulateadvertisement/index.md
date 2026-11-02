@@ -54,7 +54,7 @@ The [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetoo
 The `params` field contains:
 
 - `context`
-  - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose simulated adapter receives the advertisement.
+  - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) receives the advertisement.
     Context IDs are returned by commands such as [`browsingContext.getTree`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/getTree).
 - `scanEntry`
   - : An object that describes the advertisement.
@@ -89,6 +89,7 @@ The `result` field in the response is an empty object (`{}`).
 - [`invalid argument`](/en-US/docs/Web/WebDriver/Reference/Errors/InvalidArgument)
   - : Thrown in any of the following cases:
     - A required parameter is missing, or a parameter has an invalid type.
+    - The `key` field in a `manufacturerData` object is not a non-negative integer.
     - `context` is not a top-level context.
     - The context has no simulated adapter.
 - `no such frame`

@@ -32,6 +32,7 @@ The `params` field contains:
 
 - `address`
   - : A string that contains the Bluetooth address of the simulated device, such as one that you added with [`bluetooth.simulatePreconnectedPeripheral`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulatePreconnectedPeripheral).
+    This is the `address` value of the [`bluetooth.gattConnectionAttempted`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted) event for the attempt.
 - `code`
   - : A non-negative integer that specifies the response code, one of the HCI error codes defined in the Bluetooth Core Specification (Vol 2, Part D, "List of Error Codes").
     - `0`: The connection succeeds.
@@ -39,7 +40,7 @@ The `params` field contains:
     - Any other value: The connection fails, and `connect()` rejects with a `NetworkError` {{domxref("DOMException")}}.
 - `context`
   - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) has the device.
-    When the page in a top-level context calls `connect()`, this is the `context` value of the [`bluetooth.gattConnectionAttempted`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted) event for the attempt.
+    When the page in a top-level context calls `connect()`, this is the `context` value of the event.
 
 ### Return value
 
@@ -51,8 +52,7 @@ The `result` field in the response is an empty object (`{}`).
   - : Thrown in any of the following cases:
     - A required parameter is missing or has an invalid type.
     - `code` is not a non-negative integer.
-    - `context` is not a top-level context.
-    - The context has no simulated adapter.
+    - The context has no simulated adapter, for example because it isn't a top-level context.
     - The simulated adapter has no device with the specified `address`.
 - `invalid element state`
   - : No connection attempt to the device is waiting for a response in the specified context.

@@ -36,7 +36,7 @@ The `params` field contains:
   - : A string that contains the Bluetooth address of the device, such as `09:09:09:09:09:09`.
     It identifies the device in later commands, such as [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse).
 - `context`
-  - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose simulated adapter gets the device.
+  - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) gets the device.
     Context IDs are returned by commands such as [`browsingContext.getTree`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/getTree).
 - `knownServiceUuids`
   - : An array of strings that contains the UUIDs of the [GATT services](/en-US/docs/Web/API/BluetoothRemoteGATTService) that the device advertises, such as `0000180d-0000-1000-8000-00805f9b34fb` for the heart rate service.
