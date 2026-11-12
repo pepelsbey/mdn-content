@@ -97,6 +97,9 @@ SVG makes use of a number of data types. This article lists these types along wi
 
 ## Frequency
 
+> [!NOTE]
+> The \<frequency> type is legacy. SVG 1.1 used it only for the CSS 2 aural style properties, which apply to speech output rather than rendering. SVG 2 doesn't define it, and no SVG attribute or property takes a frequency value.
+
 - \<frequency>
   - : Frequency values are used with aural properties. As defined in CSS2, a frequency value is a [\<number>](#number) immediately followed by a frequency unit identifier. The frequency unit identifiers are:
     - `Hz`: Hertz
@@ -108,6 +111,8 @@ SVG makes use of a number of data types. This article lists these types along wi
 
 - \<FuncIRI>
   - : Functional notation for a reference. The syntax for this reference is the same as the [CSS URI](/en-US/docs/Web/CSS/Reference/Values/url_value).
+
+    \<FuncIRI> is the SVG 1.1 name for this notation. SVG 2 retires it along with [IRI](#iri) and uses the CSS `url()` type directly.
 
 ## Integer
 
@@ -128,6 +133,8 @@ SVG makes use of a number of data types. This article lists these types along wi
 
 - \<IRI>
   - : An **I**nternationalized **R**esource **I**dentifier.
+
+    IRI is the SVG 1.1 term for a reference to a resource. SVG 2 retires it in favor of the [URL](#url) type, and references work the same way under either name. The rest of this section uses the SVG 1.1 terms.
 
     On the Internet, resources are identified using _IRIs_ (Internationalized Resource Identifiers). For example, an SVG file called `someDrawing.svg` located at `http://example.com` might have the following _IRI_:
 
@@ -157,10 +164,8 @@ SVG makes use of a number of data types. This article lists these types along wi
     ```
 
     SVG supports two types of _IRI_ references:
-    - **local _IRI_ references**, where the IRI reference does not contain an \<absoluteIRI> or \<relativeIRI> and thus only contains a fragment identifier (i.e., `#<elementID>` or `#xpointer(id<elementID>)`).
+    - **local _IRI_ references**, where the IRI reference does not contain an \<absoluteIRI> or \<relativeIRI> and thus only contains a fragment identifier, such as `#<elementID>`.
     - **non-local _IRI_ references**, where the _IRI_ reference does contain an \<absoluteIRI> or \<relativeIRI>.
-
-    IRI is now a retired concept in SVG 2, replaced by the universal [URL](#url) type.
 
 ## Length
 
