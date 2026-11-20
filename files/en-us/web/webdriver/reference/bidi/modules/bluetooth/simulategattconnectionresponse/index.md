@@ -36,11 +36,11 @@ The `params` field contains:
 - `code`
   - : A non-negative integer that specifies the response code, one of the HCI error codes defined in the Bluetooth Core Specification (Vol 2, Part D, "List of Error Codes").
     - `0`: The connection succeeds.
-      Unless the page called {{domxref("BluetoothRemoteGATTServer.disconnect()", "disconnect()")}} in the meantime, {{domxref("BluetoothRemoteGATTServer.connect()", "connect()")}} resolves, and {{domxref("BluetoothRemoteGATTServer.connected", "connected")}} is `true`.
+      Unless the page called {{domxref("BluetoothRemoteGATTServer.disconnect()", "disconnect()")}} in the meantime, {{domxref("BluetoothRemoteGATTServer.connect()", "connect()")}} resolves and {{domxref("BluetoothRemoteGATTServer.connected", "connected")}} is `true`.
     - Any other value: The connection fails, and `connect()` rejects with a `NetworkError` {{domxref("DOMException")}}.
 - `context`
   - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) has the device.
-    When the page in a top-level context calls `connect()`, this is the `context` value of the event.
+    When the page in a top-level context calls `connect()`, this is the `context` value of the [`bluetooth.gattConnectionAttempted`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/gattConnectionAttempted) event.
 
 ### Return value
 
@@ -80,7 +80,7 @@ You then added a heart rate monitor with the address `09:09:09:09:09:09` using [
 The page called {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}} in response to a user's action.
 You chose the monitor in the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) using [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt).
 
-When the page calls `device.gatt.connect()`, the browser sends the following event:
+When the page calls `device.gatt.connect()`, the browser sends the following `bluetooth.gattConnectionAttempted` event:
 
 ```json
 {
@@ -117,7 +117,7 @@ The browser responds with an empty `result` object:
 }
 ```
 
-`connect()` resolves, and `device.gatt.connected` is `true`.
+`connect()` resolves and `device.gatt.connected` is `true`.
 
 ### Refusing a connection attempt
 

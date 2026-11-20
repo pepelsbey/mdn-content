@@ -72,13 +72,13 @@ The `params` field contains:
           - : An array of objects, each containing manufacturer-specific data that the device advertises.
             Each object contains the following fields:
             - `data`
-              - : A string that contains the data, [base64](/en-US/docs/Glossary/Base64)-encoded.
+              - : A string that contains the data, [Base64](/en-US/docs/Glossary/Base64)-encoded.
             - `key`
               - : A non-negative integer that specifies the company identifier code of the manufacturer, as assigned by the Bluetooth SIG.
         - `name` {{optional_inline}}
           - : A string that contains the device's local name, or the beginning of it.
         - `uuids` {{optional_inline}}
-          - : An array of strings that contains the UUIDs of the services that the device's GATT server supports, according to the advertisement.
+          - : An array of strings that contains the [UUIDs](/en-US/docs/Glossary/UUID) of the services that the device's GATT server supports, according to the advertisement.
 
 ### Return value
 
@@ -101,8 +101,8 @@ Before you simulate an advertisement, create a simulated adapter for the context
 
 If the simulated adapter has no device with the specified `deviceAddress`, the command adds a [simulated device](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_devices) with that address, as if the adapter had discovered it.
 
-A page receives an `advertisementreceived` event for the advertisement if it was given the device, for example by {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}}, and is watching the device's advertisements.
-The page watches advertisements from the time it calls `watchAdvertisements()` on its {{domxref("BluetoothDevice")}} object until it aborts the watch, or until it's hidden or no longer fully active.
+If a page was given the device, for example by {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}}, and is watching the device's advertisements, the page receives an `advertisementreceived` event for the advertisement.
+The page watches advertisements from the time it calls `watchAdvertisements()` on its {{domxref("BluetoothDevice")}} object until it aborts the watch, or until the page is hidden or no longer fully active.
 This applies to the pages in the top-level context and in its child contexts.
 
 ## Specifications

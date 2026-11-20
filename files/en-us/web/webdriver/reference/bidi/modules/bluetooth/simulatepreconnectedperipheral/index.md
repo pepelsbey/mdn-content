@@ -39,14 +39,14 @@ The `params` field contains:
   - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) gets the device.
     Context IDs are returned by commands such as [`browsingContext.getTree`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/getTree).
 - `knownServiceUuids`
-  - : An array of strings that contains the UUIDs of the [GATT services](/en-US/docs/Web/API/BluetoothRemoteGATTService) that the device advertises, such as `0000180d-0000-1000-8000-00805f9b34fb` for the heart rate service.
+  - : An array of strings that contains the [UUIDs](/en-US/docs/Glossary/UUID) of the [GATT services](/en-US/docs/Web/API/BluetoothRemoteGATTService) that the device advertises, such as `0000180d-0000-1000-8000-00805f9b34fb` for the heart rate service.
     The array can be empty.
 - `manufacturerData`
   - : An array of objects, each containing manufacturer-specific data that the device advertises.
     The array can be empty.
     Each object contains the following fields:
     - `data`
-      - : A string that contains the data, [base64](/en-US/docs/Glossary/Base64)-encoded.
+      - : A string that contains the data, [Base64](/en-US/docs/Glossary/Base64)-encoded.
     - `key`
       - : A non-negative integer that specifies the company identifier code of the manufacturer, as assigned by the Bluetooth SIG.
 - `name`
@@ -77,6 +77,7 @@ The device stays until the context is closed or you remove the adapter, along wi
 When a page in the context calls {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}} in response to a user's action, the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt) lists the simulated device only if it matches the options that the page passed.
 For example, the device matches if its `knownServiceUuids` include every service in one of the filters.
 To choose it, use [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt).
+
 Once the page has the device, it can call {{domxref("BluetoothRemoteGATTServer.connect()", "device.gatt.connect()")}}, which waits until you answer with [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse) or [`bluetooth.simulateGattDisconnection`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattDisconnection).
 
 ## Examples
@@ -114,7 +115,7 @@ The browser responds with an empty `result` object:
 }
 ```
 
-Suppose the page then calls `requestDevice()` with the filter `{ services: ["heart_rate"] }` in response to a user's action, such as a [`script.callFunction`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/script/callFunction) command with `userActivation` set to `true`.
+Suppose the page then calls `requestDevice()` with the filter `{ services: ["heart_rate"] }` in response to a user's action, such as a [`script.callFunction`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/script/callFunction) command with [`userActivation`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/script/callFunction#useractivation) set to `true`.
 You receive a `bluetooth.requestDevicePromptUpdated` event whose `devices` array includes the heart rate monitor.
 If you choose it with [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt), using the prompt ID from the latest event, `requestDevice()` resolves with a `BluetoothDevice` object whose `name` is `Heart Rate Monitor`.
 

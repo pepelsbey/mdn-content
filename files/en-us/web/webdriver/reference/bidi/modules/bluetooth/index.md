@@ -12,7 +12,7 @@ sidebar: webdriver
 
 {{SeeCompatTable}}
 
-The **`bluetooth`** module contains commands for automating Bluetooth device interactions.
+The **`bluetooth`** module contains commands and events for automating Bluetooth device interactions.
 It lets you test a website that uses the [Web Bluetooth API](/en-US/docs/Web/API/Web_Bluetooth_API) without Bluetooth hardware, by simulating a Bluetooth adapter and the devices around it.
 
 ## Simulated devices

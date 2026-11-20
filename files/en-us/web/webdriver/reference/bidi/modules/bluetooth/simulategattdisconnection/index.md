@@ -131,7 +131,7 @@ The browser responds with an empty `result` object:
 ```
 
 `connect()` rejects with a `NetworkError` `DOMException`, and `device.gatt.connected` stays `false`.
-The page receives no `gattserverdisconnected` event, because it wasn't connected.
+The page receives no `gattserverdisconnected` event because it wasn't connected.
 
 ## Specifications
 
