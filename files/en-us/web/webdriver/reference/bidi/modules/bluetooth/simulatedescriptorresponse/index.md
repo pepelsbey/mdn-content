@@ -54,7 +54,7 @@ The `params` field contains:
   - : A string that contains the Bluetooth address of the simulated device, such as one that you added with [`bluetooth.simulatePreconnectedPeripheral`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulatePreconnectedPeripheral).
     This is the `address` value of the [`bluetooth.descriptorEventGenerated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/descriptorEventGenerated) event for the operation.
 - `characteristicUuid`
-  - : A string that contains the UUID of the service's characteristic that has the descriptor, such as one that you added with [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the service's characteristic that has the descriptor, such as one that you added with [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
     This is the `characteristicUuid` value of the event.
 - `code`
   - : A non-negative integer that specifies the response code, `0` for success or one of the ATT error codes defined in the Bluetooth Core Specification (Vol 3, Part F, "Error Response").
@@ -68,10 +68,10 @@ The `params` field contains:
   - : An array of integers between `0` and `255` that specifies the bytes of the descriptor's value that the page reads.
     Specify this when the [`type`](#type) field is `read`.
 - `descriptorUuid`
-  - : A string that contains the UUID of the descriptor, such as one that you added with [`bluetooth.simulateDescriptor`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptor).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the descriptor, such as one that you added with [`bluetooth.simulateDescriptor`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptor).
     This is the `descriptorUuid` value of the event.
 - `serviceUuid`
-  - : A string that contains the UUID of the device's service that has the characteristic, such as one that you added with [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the device's service that has the characteristic, such as one that you added with [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
     This is the `serviceUuid` value of the event.
 - `type`
   - : A string that specifies the type of operation to answer.
@@ -110,7 +110,7 @@ For example, the call rejects at once if the page isn't connected to the device 
 The blocklist excludes writes to the Client Characteristic Configuration descriptor (`00002902-0000-1000-8000-00805f9b34fb`), for example.
 An operation that goes to the device waits until you answer it with this command (see [GATT operations](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#gatt_operations)).
 
-If you're [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to `bluetooth.descriptorEventGenerated`, you receive an event that identifies the operation to answer.
+If you're [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to [`bluetooth.descriptorEventGenerated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/descriptorEventGenerated), you receive an event that identifies the operation to answer.
 The event contains the device's `address`, the `serviceUuid`, `characteristicUuid` and `descriptorUuid` of the descriptor, and the `type` of the operation.
 For a write, the event's `data` field contains the bytes that the page wrote.
 
