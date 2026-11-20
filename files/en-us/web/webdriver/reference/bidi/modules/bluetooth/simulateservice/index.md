@@ -54,7 +54,7 @@ The `params` field contains:
     - `add`: Adds a service with the specified [`uuid`](#uuid) to the device.
     - `remove`: Removes the device's service with the specified `uuid`, along with its characteristics and their descriptors.
 - `uuid`
-  - : A string that contains the 128-bit UUID of the service in lowercase, such as `0000180d-0000-1000-8000-00805f9b34fb` for the heart rate service.
+  - : A string that contains the 128-bit [UUID](/en-US/docs/Glossary/UUID) of the service in lowercase, such as `0000180d-0000-1000-8000-00805f9b34fb` for the heart rate service.
 
 ### Return value
 
@@ -80,6 +80,7 @@ The `result` field in the response is an empty object (`{}`).
 A simulated device has one service per UUID.
 Each service can have characteristics, which you add using [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
 For more information, see [The GATT hierarchy](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_gatt_hierarchy).
+
 Once the page has the device from {{domxref("Bluetooth.requestDevice()", "navigator.bluetooth.requestDevice()")}}, you can add a service before or after the page connects to it.
 The service stays on the device until you remove it with another `bluetooth.simulateService` command, until the context is closed, or until you remove the simulated adapter with [`bluetooth.disableSimulation`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/disableSimulation).
 

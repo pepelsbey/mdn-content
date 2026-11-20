@@ -50,14 +50,14 @@ The `params` field contains:
 - `address`
   - : A string that contains the Bluetooth address of the simulated device, such as one that you added with [`bluetooth.simulatePreconnectedPeripheral`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulatePreconnectedPeripheral).
 - `characteristicUuid`
-  - : A string that contains the UUID of the service's characteristic that has the descriptor, such as one that you added with [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the service's characteristic that has the descriptor, such as one that you added with [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
 - `context`
   - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) has the device.
     Context IDs are returned by commands such as [`browsingContext.getTree`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/getTree).
 - `descriptorUuid`
-  - : A string that contains the 128-bit UUID of the descriptor in lowercase, such as `00002902-0000-1000-8000-00805f9b34fb` for the Client Characteristic Configuration descriptor.
+  - : A string that contains the 128-bit [UUID](/en-US/docs/Glossary/UUID) of the descriptor in lowercase, such as `00002902-0000-1000-8000-00805f9b34fb` for the Client Characteristic Configuration descriptor.
 - `serviceUuid`
-  - : A string that contains the UUID of the device's service that has the characteristic, such as one that you added with [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the device's service that has the characteristic, such as one that you added with [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
 - `type`
   - : A string that specifies whether to add or remove the descriptor.
     It can take one of the following values:
@@ -90,6 +90,7 @@ The `result` field in the response is an empty object (`{}`).
 A characteristic has one descriptor per UUID, and a descriptor contains no other attributes.
 For more information, see [The GATT hierarchy](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_gatt_hierarchy).
 Removing the characteristic or its service also removes the descriptor.
+
 Once the page is connected to the device and has the characteristic, it finds the descriptor with {{domxref("BluetoothRemoteGATTCharacteristic.getDescriptor()", "characteristic.getDescriptor()")}} or {{domxref("BluetoothRemoteGATTCharacteristic.getDescriptors()", "getDescriptors()")}}.
 It doesn't find the descriptor if the [GATT blocklist](https://bluetooth.spec.whatwg.org/#gatt-blocklist) excludes its UUID.
 Once you remove the descriptor, the page no longer finds it.
@@ -97,7 +98,8 @@ Once you remove the descriptor, the page no longer finds it.
 When the page reads or writes the descriptor's value, the operation goes to the simulated device.
 The page's own checks can settle the call first, for example when the page isn't connected to the device or the GATT blocklist excludes the operation.
 An operation that goes to the device waits until you answer it with [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse).
-If you're subscribed to [`bluetooth.descriptorEventGenerated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/descriptorEventGenerated), you receive an event that says which operation the page started.
+
+If you're [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to [`bluetooth.descriptorEventGenerated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/descriptorEventGenerated), you receive an event that says which operation the page started.
 
 ## Examples
 

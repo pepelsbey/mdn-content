@@ -57,31 +57,31 @@ The `params` field contains:
     A property is set only if its field is `true`.
     It can contain the following fields:
     - `authenticatedSignedWrites` {{optional_inline}}
-      - : A boolean that indicates whether signed writes to the characteristic's value are permitted.
+      - : A boolean that indicates whether signed writes to the characteristic's value are permitted (`true`) or not (`false`).
     - `broadcast` {{optional_inline}}
-      - : A boolean that indicates whether the characteristic's value can be broadcast.
+      - : A boolean that indicates whether the characteristic's value can be broadcast (`true`) or not (`false`).
     - `extendedProperties` {{optional_inline}}
       - : A boolean that indicates whether the characteristic has further properties, defined in its Characteristic Extended Properties descriptor.
         {{domxref("BluetoothCharacteristicProperties")}} has no property of this name.
         If this field is `true`, the page's `reliableWrite` and `writableAuxiliaries` properties come from that descriptor.
         Otherwise, they are `false`.
     - `indicate` {{optional_inline}}
-      - : A boolean that indicates whether the characteristic can send indications of its value, with acknowledgement.
+      - : A boolean that indicates whether the characteristic can send acknowledged indications of its value (`true`) or not (`false`).
     - `notify` {{optional_inline}}
-      - : A boolean that indicates whether the characteristic can send notifications of its value, without acknowledgement.
+      - : A boolean that indicates whether the characteristic can send unacknowledged notifications of its value (`true`) or not (`false`).
     - `read` {{optional_inline}}
-      - : A boolean that indicates whether the characteristic's value can be read.
+      - : A boolean that indicates whether the characteristic's value can be read (`true`) or not (`false`).
     - `write` {{optional_inline}}
-      - : A boolean that indicates whether the characteristic's value can be written with a response.
+      - : A boolean that indicates whether the characteristic's value can be written with a response (`true`) or not (`false`).
     - `writeWithoutResponse` {{optional_inline}}
-      - : A boolean that indicates whether the characteristic's value can be written without a response.
+      - : A boolean that indicates whether the characteristic's value can be written without a response (`true`) or not (`false`).
 - `characteristicUuid`
-  - : A string that contains the 128-bit UUID of the characteristic in lowercase, such as `00002a37-0000-1000-8000-00805f9b34fb` for the heart rate measurement characteristic.
+  - : A string that contains the 128-bit [UUID](/en-US/docs/Glossary/UUID) of the characteristic in lowercase, such as `00002a37-0000-1000-8000-00805f9b34fb` for the heart rate measurement characteristic.
 - `context`
   - : A string that contains the ID of the [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) whose [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter) has the device.
     Context IDs are returned by commands such as [`browsingContext.getTree`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/getTree).
 - `serviceUuid`
-  - : A string that contains the UUID of the device's service in which to add or remove the characteristic, such as one that you added with [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the device's service in which to add or remove the characteristic, such as one that you added with [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
 - `type`
   - : A string that specifies whether to add or remove the characteristic.
     It can take one of the following values:
@@ -115,6 +115,7 @@ The `result` field in the response is an empty object (`{}`).
 A service has one characteristic per UUID.
 Each characteristic can have descriptors, which you add using [`bluetooth.simulateDescriptor`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptor).
 For more information, see [The GATT hierarchy](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_gatt_hierarchy).
+
 To change the properties of a characteristic, remove it and then add it again with the new properties.
 Removing the characteristic also removes its descriptors, so add again any descriptors that it had.
 The page sees the new properties in the characteristic that it gets afterward.
@@ -126,7 +127,8 @@ Once you remove the characteristic, the page no longer finds it.
 When the page reads or writes the characteristic's value, or starts or stops notifications, the operation goes to the simulated device.
 The page's own checks can settle the call first, for example when the page isn't connected to the device.
 An operation that goes to the device waits until you answer it with [`bluetooth.simulateCharacteristicResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristicResponse).
-If you're subscribed to [`bluetooth.characteristicEventGenerated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/characteristicEventGenerated), you receive an event that says which operation the page started.
+
+If you're [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to [`bluetooth.characteristicEventGenerated`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/characteristicEventGenerated), you receive an event that says which operation the page started.
 
 ## Examples
 
