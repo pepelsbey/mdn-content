@@ -19,19 +19,19 @@ The `params` field in the event notification is an object with the following fie
 - `context`
   - : A string that contains the ID of the context in which the page called `connect()`.
     Context IDs are returned by commands such as [`browsingContext.getTree`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/getTree).
-    When the page in a [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) called `connect()`, this is the `context` to specify in `bluetooth.simulateGattConnectionResponse` or `bluetooth.simulateGattDisconnection`.
+    If the page that called `connect()` is in a [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context), specify this ID as the `context` of a [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse) or [`bluetooth.simulateGattDisconnection`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattDisconnection) command.
 
 ## Description
 
 When a page calls `connect()` for a device that isn't connected, and the page's top-level context has a [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter), the call waits until you simulate the device's response (see [GATT connections](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#gatt_connections)).
+If the device is already connected, `connect()` resolves at once, without an event.
+
 If you're [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to `bluetooth.gattConnectionAttempted`, you receive this event, which identifies the device and the context.
 You then answer the attempt:
 
 - To let the connection succeed, or to make it fail with an error code, send [`bluetooth.simulateGattConnectionResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattConnectionResponse).
   With an error code, `connect()` rejects with a `NetworkError` {{domxref("DOMException")}}.
 - To make the attempt fail as if the device couldn't respond, send [`bluetooth.simulateGattDisconnection`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateGattDisconnection).
-
-If the device is already connected, `connect()` resolves at once, without an event.
 
 ## Examples
 

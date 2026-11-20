@@ -16,19 +16,20 @@ The `params` field in the event notification is an object with the following fie
 
 - `address`
   - : A string that contains the Bluetooth address of the simulated device that has the descriptor.
+    To answer the operation, specify this address as the `address` of a [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse) command.
 - `characteristicUuid`
-  - : A string that contains the UUID of the characteristic that has the descriptor, as you specified it in [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the characteristic that has the descriptor, as you specified it in [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
 - `context`
   - : A string that contains the ID of the context in which the page started the operation.
     Context IDs are returned by commands such as [`browsingContext.getTree`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/getTree).
-    When the page in a [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) started the operation, this is the `context` to specify in [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse).
+    If the page that started the operation is in a [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context), specify this ID as the `context` of a [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse) command.
 - `data` {{optional_inline}}
   - : An array of integers between `0` and `255` that contains the bytes that the page wrote.
-    This field is included when the [`type`](#type) field is `write`.
+    This field is included only when the [`type`](#type) field is `write`.
 - `descriptorUuid`
-  - : A string that contains the UUID of the descriptor, as you specified it in [`bluetooth.simulateDescriptor`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptor).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the descriptor, as you specified it in [`bluetooth.simulateDescriptor`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptor).
 - `serviceUuid`
-  - : A string that contains the UUID of the service that has the characteristic, as you specified it in [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the service that has the characteristic, as you specified it in [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
 - `type`
   - : A string that indicates the type of the operation.
     It has one of the following values:
@@ -40,10 +41,12 @@ The `params` field in the event notification is an object with the following fie
 When a page reads or writes the value of a simulated descriptor, the operation goes to the simulated device.
 The page's own checks can settle the call first.
 For example, the call rejects at once if the page isn't connected to the device or if the [GATT blocklist](https://bluetooth.spec.whatwg.org/#gatt-blocklist) excludes the operation, as it does for writes to the Client Characteristic Configuration descriptor (`00002902-0000-1000-8000-00805f9b34fb`).
-An operation that goes to the device waits until you answer it with `bluetooth.simulateDescriptorResponse` (see [GATT operations](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#gatt_operations)).
+
+An operation that goes to the device waits until you answer it with [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse) (see [GATT operations](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#gatt_operations)).
 If the connection to the device ends first, the call rejects.
 
 If you're [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to `bluetooth.descriptorEventGenerated`, you receive this event for each operation that goes to the device.
+
 To answer the operation, send `bluetooth.simulateDescriptorResponse` with the event's `address`, `serviceUuid`, `characteristicUuid`, and `descriptorUuid`, which identify the descriptor.
 For its `type`, use the event's `type`.
 If the page in a top-level context started the operation, also use the event's `context`.
@@ -82,7 +85,7 @@ When the page calls `readValue()` on the descriptor, the browser sends the follo
 ```
 
 The `readValue()` call waits.
-To answer it, send a [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse) command with the event's `address`, `characteristicUuid`, `context`, `descriptorUuid`, `serviceUuid`, and `type`, the code `0`, and the value's bytes in `data`, such as the description "Chest strap" encoded as UTF-8.
+To answer it, send a [`bluetooth.simulateDescriptorResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateDescriptorResponse) command with the event's `address`, `characteristicUuid`, `context`, `descriptorUuid`, `serviceUuid`, and `type`, the code `0`, and the value's bytes in `data`, such as the description "Chest strap" encoded as [UTF-8](/en-US/docs/Glossary/UTF-8).
 `readValue()` then resolves with a {{jsxref("DataView")}} that holds these bytes.
 
 ### Receiving a write, with the bytes written

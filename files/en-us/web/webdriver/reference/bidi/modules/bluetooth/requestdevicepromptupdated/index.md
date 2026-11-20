@@ -21,7 +21,7 @@ The `params` field in the event notification is an object with the following fie
 - `devices`
   - : An array of objects, each representing a device that the prompt lists.
     The devices match the options that the page passed to `requestDevice()`.
-    It can be empty: the browser can open the prompt even if no device matches.
+    The array can be empty: the browser can open the prompt even if no device matches.
     Each object contains the following fields:
     - `id`
       - : A string that contains the ID of the device.
@@ -30,7 +30,7 @@ The `params` field in the event notification is an object with the following fie
       - : A string that contains the name of the device.
         If the device has no name, the value is `null` instead of a string.
 - `prompt`
-  - : A string that contains the ID of the device prompt.
+  - : A string that contains the ID of the [device prompt](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#the_device_prompt).
     Every event for the same prompt has the same ID.
     To close the prompt, specify this ID as the `prompt` of a `bluetooth.handleRequestDevicePrompt` command.
 
@@ -38,14 +38,16 @@ The `params` field in the event notification is an object with the following fie
 
 When a page calls `requestDevice()` in response to a user's action, the browser looks for the devices that match the options that the page passed.
 It then opens a device prompt that lists them, so that the user can choose one.
-If you're [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to `bluetooth.requestDevicePromptUpdated`, you receive this event when the prompt opens.
-While the prompt is open, the browser can send the event again with the same prompt ID and an updated `devices` array.
-Use the devices from the latest event.
 With a [simulated adapter](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#simulated_adapter), the list includes the simulated devices that match.
 
-To close the prompt as the user would, send `bluetooth.handleRequestDevicePrompt` with the IDs from the event.
+If you're [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to `bluetooth.requestDevicePromptUpdated`, you receive this event when the prompt opens.
+Subscribe to the event before the page calls `requestDevice()` so that you receive the IDs that you need to close the prompt.
+
+While the prompt is open, the browser can send the event again with the same prompt ID and an updated `devices` array.
+Use the devices from the latest event.
+
+To close the prompt as the user would, send [`bluetooth.handleRequestDevicePrompt`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/handleRequestDevicePrompt) with the IDs from the event.
 The command either chooses one of the listed devices or cancels the prompt.
-Subscribe to the event before the page calls `requestDevice()` so that you receive the IDs that the command needs.
 
 You receive no event if `requestDevice()` rejects before the browser opens a prompt, for example in a page that isn't allowed to use Bluetooth.
 

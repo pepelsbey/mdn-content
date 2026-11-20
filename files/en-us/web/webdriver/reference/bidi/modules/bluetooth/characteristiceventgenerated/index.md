@@ -16,17 +16,18 @@ The `params` field in the event notification is an object with the following fie
 
 - `address`
   - : A string that contains the Bluetooth address of the simulated device that has the characteristic.
+    To answer the operation, specify this address as the `address` of a [`bluetooth.simulateCharacteristicResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristicResponse) command.
 - `characteristicUuid`
-  - : A string that contains the UUID of the characteristic, as you specified it in [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the characteristic, as you specified it in [`bluetooth.simulateCharacteristic`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristic).
 - `context`
   - : A string that contains the ID of the context in which the page started the operation.
     Context IDs are returned by commands such as [`browsingContext.getTree`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext/getTree).
-    When the page in a [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context) started the operation, this is the `context` to specify in [`bluetooth.simulateCharacteristicResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristicResponse).
+    If the page that started the operation is in a [top-level context](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/browsingContext#top-level_context), specify this ID as the `context` of a [`bluetooth.simulateCharacteristicResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristicResponse) command.
 - `data` {{optional_inline}}
   - : An array of integers between `0` and `255` that contains the bytes that the page wrote.
-    This field is included when the [`type`](#type) field is `write-with-response` or `write-without-response`.
+    This field is included only when the [`type`](#type) field is `write-with-response` or `write-without-response`.
 - `serviceUuid`
-  - : A string that contains the UUID of the service that has the characteristic, as you specified it in [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
+  - : A string that contains the [UUID](/en-US/docs/Glossary/UUID) of the service that has the characteristic, as you specified it in [`bluetooth.simulateService`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateService).
 - `type`
   - : A string that indicates the type of the operation.
     It has one of the following values:
@@ -42,10 +43,12 @@ When a page reads the value of a simulated characteristic, writes it with {{domx
 The page's own checks can settle the call first.
 For example, the call rejects at once if the page isn't connected to the device or if the [GATT blocklist](https://bluetooth.spec.whatwg.org/#gatt-blocklist) excludes the operation.
 `startNotifications()` resolves at once if notifications are already started, and `stopNotifications()` resolves at once if they aren't.
-An operation that goes to the device waits until you answer it with `bluetooth.simulateCharacteristicResponse` (see [GATT operations](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#gatt_operations)).
+
+An operation that goes to the device waits until you answer it with [`bluetooth.simulateCharacteristicResponse`](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth/simulateCharacteristicResponse) (see [GATT operations](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/bluetooth#gatt_operations)).
 If the connection to the device ends first, the call rejects, except for `stopNotifications()`.
 
 If you're [subscribed](/en-US/docs/Web/WebDriver/Reference/BiDi/Modules/session/subscribe) to `bluetooth.characteristicEventGenerated`, you receive this event for each operation that goes to the device.
+
 To answer the operation, send `bluetooth.simulateCharacteristicResponse` with the event's `address`, `serviceUuid`, and `characteristicUuid`, which identify the characteristic.
 For its `type`, use the event's `type`, or `write` for both types of write.
 If the page in a top-level context started the operation, also use the event's `context`.
