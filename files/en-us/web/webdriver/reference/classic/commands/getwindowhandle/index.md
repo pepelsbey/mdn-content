@@ -9,7 +9,9 @@ sidebar: webdriver
 
 The _Get Window Handle_ [command](/en-US/docs/Web/WebDriver/Reference/Classic/Commands) of the [WebDriver](/en-US/docs/Web/WebDriver) API returns the window handle of the current top-level browsing context. A window handle is a string that uniquely identifies a window or tab.
 
-The command returns the handle of the window or tab, even if the session has switched to a frame with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame). To select this window or tab again later, pass its handle to [Switch To Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToWindow). To get the handles of all open windows and tabs, use [Get Window Handles](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/GetWindowHandles).
+The command returns the handle of the window or tab, even if the session has switched to a frame with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame).
+
+To select this window or tab again later, pass its handle to [Switch To Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToWindow). To get the handles of all open windows and tabs, use [Get Window Handles](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/GetWindowHandles).
 
 The command doesn't handle user prompts: it returns the handle while a prompt is open, and the prompt stays open.
 

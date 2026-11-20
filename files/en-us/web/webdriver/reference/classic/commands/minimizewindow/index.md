@@ -9,7 +9,9 @@ sidebar: webdriver
 
 The _Minimize Window_ [command](/en-US/docs/Web/WebDriver/Reference/Classic/Commands) of the [WebDriver](/en-US/docs/Web/WebDriver) API minimizes the operating system window that contains the current top-level browsing context. This typically hides the window from the screen.
 
-The command applies to the window of the current tab, even if the session has switched to a frame with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame). If the page in the current tab is in fullscreen mode, for example after [Fullscreen Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FullscreenWindow) or {{domxref("Element.requestFullscreen()")}}, the browser exits fullscreen first.
+The command applies to the window of the current tab, even if the session has switched to a frame with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame).
+
+If the page in the current tab is in fullscreen mode, for example after [Fullscreen Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FullscreenWindow) or {{domxref("Element.requestFullscreen()")}}, the browser exits fullscreen first.
 
 The command returns once the document of the current tab is hidden, that is, once its {{domxref("Document.visibilityState")}} is `"hidden"`, or, if that takes too long, after a timeout that depends on the browser. Either way, it returns the window's size and position.
 
@@ -32,16 +34,16 @@ An object that describes the size and position of the window.
 It contains the following fields:
 
 - `x`
-  - : The horizontal position of the left edge of the window, in CSS pixels, relative to the screen.
+  - : The horizontal position of the left edge of the window, in {{glossary("CSS pixel", "CSS pixels")}}, relative to the screen.
     This is the same value as {{domxref("Window.screenX")}}.
 - `y`
-  - : The vertical position of the top edge of the window, in CSS pixels, relative to the screen.
+  - : The vertical position of the top edge of the window, in {{glossary("CSS pixel", "CSS pixels")}}, relative to the screen.
     This is the same value as {{domxref("Window.screenY")}}.
 - `width`
-  - : The width of the window, in CSS pixels, including the browser's interface and the window's borders.
+  - : The width of the window, in {{glossary("CSS pixel", "CSS pixels")}}, including the browser's interface and the window's borders.
     This is the same value as {{domxref("Window.outerWidth")}}.
 - `height`
-  - : The height of the window, in CSS pixels, including the browser's interface and the window's borders.
+  - : The height of the window, in {{glossary("CSS pixel", "CSS pixels")}}, including the browser's interface and the window's borders.
     This is the same value as {{domxref("Window.outerHeight")}}.
 
 ### Errors

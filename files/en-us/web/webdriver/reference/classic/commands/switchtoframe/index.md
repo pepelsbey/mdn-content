@@ -86,7 +86,7 @@ content-type: application/json; charset=utf-8
 {"value":null}
 ```
 
-Find Element now searches the payment form's document, and finds the card number field. The frame's document comes from a different origin than the page's, which doesn't prevent the switch.
+Find Element now searches the payment form's document and finds the card number field. The frame's document comes from a different origin than the page's, which doesn't prevent the switch.
 
 ### Switching back to the top-level document
 
@@ -111,7 +111,7 @@ Commands apply to the checkout page again.
 
 ### Switching to a frame by its element
 
-Using the same server and session as in the previous examples, the top-level document is selected again. Assume you found the `<iframe>` element using [Find Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElement) with the CSS selector `iframe#payment`, which returned a web element reference. To switch to the frame, send the reference in `id`:
+Using the same server and session as in the previous examples, with the top-level document selected again, assume you found the `<iframe>` element using [Find Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElement) with the CSS selector `iframe#payment`, which returned a web element reference. To switch to the frame, send the reference in `id`:
 
 ```bash
 curl -i -H "Content-Type: application/json" \

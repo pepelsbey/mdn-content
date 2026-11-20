@@ -9,7 +9,9 @@ sidebar: webdriver
 
 The _Fullscreen Window_ [command](/en-US/docs/Web/WebDriver/Reference/Classic/Commands) of the [WebDriver](/en-US/docs/Web/WebDriver) API makes the operating system window that contains the current top-level browsing context fullscreen.
 
-The command applies to the window of the current tab, even if the session has switched to a frame with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame). If the window is minimized, the browser restores it first. The root element of the top-level document (the {{HTMLElement("html")}} element of an HTML page) then becomes its {{domxref("Document.fullscreenElement")}}, as when the page calls {{domxref("Element.requestFullscreen()")}} on it, but without the user activation that method requires. The window is then in fullscreen mode.
+The command applies to the window of the current tab, even if the session has switched to a frame with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame).
+
+If the window is minimized, the browser restores it first. The root element of the top-level document (the {{HTMLElement("html")}} element of an HTML page) then becomes the document's {{domxref("Document.fullscreenElement")}}, similar to calling {{domxref("Element.requestFullscreen()")}} on the root element, but without the user activation that method requires. The window is then in fullscreen mode.
 
 To leave fullscreen mode, use [Maximize Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/MaximizeWindow), [Minimize Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/MinimizeWindow) or [Set Window Rect](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SetWindowRect), which exit fullscreen first.
 
@@ -30,16 +32,16 @@ An object that describes the size and position of the window.
 It contains the following fields:
 
 - `x`
-  - : The horizontal position of the left edge of the window, in CSS pixels, relative to the screen.
+  - : The horizontal position of the left edge of the window, in {{glossary("CSS pixel", "CSS pixels")}}, relative to the screen.
     This is the same value as {{domxref("Window.screenX")}}.
 - `y`
-  - : The vertical position of the top edge of the window, in CSS pixels, relative to the screen.
+  - : The vertical position of the top edge of the window, in {{glossary("CSS pixel", "CSS pixels")}}, relative to the screen.
     This is the same value as {{domxref("Window.screenY")}}.
 - `width`
-  - : The width of the window, in CSS pixels, including the browser's interface and the window's borders.
+  - : The width of the window, in {{glossary("CSS pixel", "CSS pixels")}}, including the browser's interface and the window's borders.
     This is the same value as {{domxref("Window.outerWidth")}}.
 - `height`
-  - : The height of the window, in CSS pixels, including the browser's interface and the window's borders.
+  - : The height of the window, in {{glossary("CSS pixel", "CSS pixels")}}, including the browser's interface and the window's borders.
     This is the same value as {{domxref("Window.outerHeight")}}.
 
 ### Errors

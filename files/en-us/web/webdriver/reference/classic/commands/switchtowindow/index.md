@@ -11,9 +11,11 @@ The _Switch To Window_ [command](/en-US/docs/Web/WebDriver/Reference/Classic/Com
 
 If the command succeeds, later commands apply to the top-level document of the selected window or tab, even if the session was in a frame of that window before. In a tabbed browser, the selected tab typically becomes the visible tab of its window, but the command doesn't change which operating system window has focus.
 
-To get the handles of the open windows and tabs, use [Get Window Handles](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/GetWindowHandles). [New Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/NewWindow) returns the handle of the window or tab it opens, but doesn't select it. The command also works when the current window or tab has been closed, so after [Close Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/CloseWindow) you can use it to select one of the remaining windows or tabs.
+To get the handles of the open windows and tabs, use [Get Window Handles](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/GetWindowHandles). [New Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/NewWindow) returns the handle of the window or tab it opens, but doesn't select it.
 
-The command doesn't handle user prompts. If a prompt is open in the window or tab you leave and doesn't prevent the switch, it stays open, and it's still there when you switch back.
+The command also works when the current window or tab has been closed, so after [Close Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/CloseWindow) you can use it to select one of the remaining windows or tabs.
+
+The command doesn't handle user prompts. If a prompt is open in the window or tab you leave and doesn't prevent the switch, the prompt stays open and is still there when you switch back.
 
 ## Syntax
 
