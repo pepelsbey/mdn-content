@@ -9,9 +9,11 @@ sidebar: webdriver
 
 The _Find Elements_ [command](/en-US/docs/Web/WebDriver/Reference/Classic/Commands) of the [WebDriver](/en-US/docs/Web/WebDriver) API finds every element in the current document that matches the specified selector and returns references to them. This is similar to calling {{domxref("Document.querySelectorAll()")}} in JavaScript, with a choice of location strategies besides CSS selectors.
 
-The command searches the document of the current browsing context: the window or tab selected with [Switch To Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToWindow), or the frame selected with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame). It doesn't search the documents of frames within it, or shadow trees. To get only the first matching element, use [Find Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElement). To search within an element, use [Find Elements From Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElementsFromElement).
+The command searches the document of the current browsing context: the window or tab selected with [Switch To Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToWindow), or the frame selected with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame). It doesn't search the documents of frames within it, or shadow trees.
 
-If no element matches, the command keeps searching until at least one does or until the session's implicit wait timeout ends. This is the `implicit` value of the session's [timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Timeouts#implicit), which [Set Timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SetTimeouts) changes. It is `0` by default, so the command returns an empty array at once. If it is `null`, the command waits until an element matches.
+To get only the first matching element, use [Find Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElement). To search within an element, use [Find Elements From Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElementsFromElement).
+
+If no element matches, the command keeps searching until at least one does or until the session's implicit wait timeout ends. This is the `implicit` value of the session's [timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Timeouts#implicit), which [Set Timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SetTimeouts) changes. The timeout is `0` by default, so the command returns an empty array at once. If the timeout is `null`, the command waits until an element matches.
 
 ## Syntax
 
@@ -57,7 +59,7 @@ Commands such as [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/C
 
 Within a session, an element always has the same reference.
 The reference works only in the browsing context where it was returned: in another frame or window, element commands return a `no such element` error for it.
-If the element is no longer in its document, or its document is no longer the one displayed (for example after a reload or a navigation), they return a [`stale element reference`](/en-US/docs/Web/WebDriver/Reference/Errors/StaleElementReference) error for it.
+If the element is no longer in its document, or its document is no longer the one displayed (for example after a reload or a navigation), element commands return a [`stale element reference`](/en-US/docs/Web/WebDriver/Reference/Errors/StaleElementReference) error for it.
 
 ### Errors
 
@@ -103,7 +105,7 @@ content-type: application/json; charset=utf-8
 
 ### Finding elements when none match
 
-Using the same server and session as in the first example, none of the page's buttons is disabled. Send the following XPath expression to find disabled buttons:
+None of the page's buttons is disabled. Using the same server and session as in the first example, send the following XPath expression to find disabled buttons:
 
 ```bash
 curl -i -H "Content-Type: application/json" \

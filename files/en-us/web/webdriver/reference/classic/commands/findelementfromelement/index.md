@@ -9,9 +9,13 @@ sidebar: webdriver
 
 The _Find Element From Element_ [command](/en-US/docs/Web/WebDriver/Reference/Classic/Commands) of the [WebDriver](/en-US/docs/Web/WebDriver) API searches from the specified element for the first element that matches the specified selector and returns a reference to it. This is similar to calling {{domxref("Element.querySelector()")}} in JavaScript, with a choice of location strategies besides CSS selectors.
 
-With the `css selector`, `link text`, `partial link text` and `tag name` strategies, only descendants of the element match, in document order. A CSS selector is still matched against the whole document: for example, `ul a` matches links within the element even when the `<ul>` element is one of its ancestors. With `xpath`, the element is the context node of the expression, which can select elements outside it: `.//a` selects the links within the element, while `//a` selects the links of the whole document, and `..` selects the element's parent. To get every matching element, use [Find Elements From Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElementsFromElement). To search the whole document, use [Find Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElement).
+With the `css selector`, `link text`, `partial link text` and `tag name` strategies, only descendants of the element match, in document order. A CSS selector is still matched against the whole document: for example, `ul a` matches links within the element even when the `<ul>` element is one of its ancestors.
 
-If no element matches, the command keeps searching until one does or until the session's implicit wait timeout ends. This is the `implicit` value of the session's [timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Timeouts#implicit), which [Set Timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SetTimeouts) changes. It is `0` by default, so the command returns a `no such element` error at once. If it is `null`, the command waits until an element matches.
+With `xpath`, the element is the context node of the expression, which can select elements outside it: `.//a` selects the links within the element, while `//a` selects the links of the whole document, and `..` selects the element's parent.
+
+To get every matching element, use [Find Elements From Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElementsFromElement). To search the whole document, use [Find Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElement).
+
+If no element matches, the command keeps searching until one does or until the session's implicit wait timeout ends. This is the `implicit` value of the session's [timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Timeouts#implicit), which [Set Timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SetTimeouts) changes. The timeout is `0` by default, so the command returns a `no such element` error at once. If the timeout is `null`, the command waits until an element matches.
 
 ## Syntax
 
@@ -58,7 +62,7 @@ Commands such as [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/C
 
 Within a session, an element always has the same reference.
 The reference works only in the browsing context where it was returned: in another frame or window, element commands return a `no such element` error for it.
-If the element is no longer in its document, or its document is no longer the one displayed (for example after a reload or a navigation), they return a [`stale element reference`](/en-US/docs/Web/WebDriver/Reference/Errors/StaleElementReference) error for it.
+If the element is no longer in its document, or its document is no longer the one displayed (for example after a reload or a navigation), element commands return a [`stale element reference`](/en-US/docs/Web/WebDriver/Reference/Errors/StaleElementReference) error for it.
 
 ### Errors
 

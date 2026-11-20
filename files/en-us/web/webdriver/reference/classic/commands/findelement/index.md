@@ -9,9 +9,11 @@ sidebar: webdriver
 
 The _Find Element_ [command](/en-US/docs/Web/WebDriver/Reference/Classic/Commands) of the [WebDriver](/en-US/docs/Web/WebDriver) API finds the first element in the current document that matches the specified selector and returns a reference to it. This is similar to calling {{domxref("Document.querySelector()")}} in JavaScript, with a choice of location strategies besides CSS selectors.
 
-The command searches the document of the current browsing context: the window or tab selected with [Switch To Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToWindow), or the frame selected with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame). It doesn't search the documents of frames within it, or shadow trees. Elements are matched in document order. To get every matching element, use [Find Elements](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElements). To search within an element, use [Find Element From Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElementFromElement).
+The command searches the document of the current browsing context: the window or tab selected with [Switch To Window](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToWindow), or the frame selected with [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SwitchToFrame). It doesn't search the documents of frames within it, or shadow trees. Elements are matched in document order.
 
-If no element matches, the command keeps searching until one does or until the session's implicit wait timeout ends. This is the `implicit` value of the session's [timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Timeouts#implicit), which [Set Timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SetTimeouts) changes. It is `0` by default, so the command returns a `no such element` error at once. If it is `null`, the command waits until an element matches.
+To get every matching element, use [Find Elements](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElements). To search within an element, use [Find Element From Element](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/FindElementFromElement).
+
+If no element matches, the command keeps searching until one does or until the session's implicit wait timeout ends. This is the `implicit` value of the session's [timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Timeouts#implicit), which [Set Timeouts](/en-US/docs/Web/WebDriver/Reference/Classic/Commands/SetTimeouts) changes. The timeout is `0` by default, so the command returns a `no such element` error at once. If the timeout is `null`, the command waits until an element matches.
 
 ## Syntax
 
@@ -56,7 +58,7 @@ Commands such as [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/C
 
 Within a session, an element always has the same reference.
 The reference works only in the browsing context where it was returned: in another frame or window, element commands return a `no such element` error for it.
-If the element is no longer in its document, or its document is no longer the one displayed (for example after a reload or a navigation), they return a [`stale element reference`](/en-US/docs/Web/WebDriver/Reference/Errors/StaleElementReference) error for it.
+If the element is no longer in its document, or its document is no longer the one displayed (for example after a reload or a navigation), element commands return a [`stale element reference`](/en-US/docs/Web/WebDriver/Reference/Errors/StaleElementReference) error for it.
 
 ### Errors
 
@@ -105,7 +107,7 @@ Finding the field again, with this or another selector, returns the same referen
 
 ### Finding a link by its text
 
-Using the same server and session as in the first example, the page has a "View cart" link after the list of products. To find it, send its text with the `link text` strategy:
+The page also has a "View cart" link after the list of products. Using the same server and session as in the first example, send the link's text with the `link text` strategy to find it:
 
 ```bash
 curl -i -H "Content-Type: application/json" \
@@ -122,7 +124,7 @@ content-type: application/json; charset=utf-8
 {"value":{"element-6066-11e4-a52e-4f735466cecf":"f5a28998-91ba-47c6-a022-d409cad945a5"}}
 ```
 
-The `link text` strategy matches the whole text of a link. To match part of it, use `partial link text`: for example, Find Element with the value `"mug"` returns the "Red mug" link, the first of the links whose text contains it.
+The `link text` strategy matches the whole text of a link. To match part of it, use `partial link text`: for example, Find Element with the value `"mug"` returns the "Red mug" link, the first of the links whose text contains `mug`.
 
 ## Specifications
 

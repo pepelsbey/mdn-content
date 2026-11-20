@@ -34,7 +34,7 @@ Commands such as [Switch To Frame](/en-US/docs/Web/WebDriver/Reference/Classic/C
 
 Within a session, an element always has the same reference.
 The reference works only in the browsing context where it was returned: in another frame or window, element commands return a `no such element` error for it.
-If the element is no longer in its document, or its document is no longer the one displayed (for example after a reload or a navigation), they return a [`stale element reference`](/en-US/docs/Web/WebDriver/Reference/Errors/StaleElementReference) error for it.
+If the element is no longer in its document, or its document is no longer the one displayed (for example after a reload or a navigation), element commands return a [`stale element reference`](/en-US/docs/Web/WebDriver/Reference/Errors/StaleElementReference) error for it.
 
 ### Errors
 
